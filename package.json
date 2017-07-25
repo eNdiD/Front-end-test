@@ -33,6 +33,6 @@
     "rollup-plugin-node-resolve": "^2.0.0"
   },
   "dependencies": {
-    "normalize.css": "^5.0.0"
+    "normalize-scss": "^7.0.0"
   }
 }
