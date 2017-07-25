@@ -9,7 +9,7 @@ const newer = require('gulp-newer');
 const autoprefixer = require('gulp-autoprefixer');
 const browserSync = require('browser-sync');
 const gulpIf = require('gulp-if');
-const uglify = require('gulp-uglify');
+const uglify = require('rollup-plugin-uglify-es');
 const notify = require('gulp-notify');
 const rollup = require('gulp-better-rollup');
 const nodeResolve = require('rollup-plugin-node-resolve');
@@ -26,7 +26,7 @@ gulp.task('styles', function () {
         .pipe(sass().on('error', sass.logError))
         .pipe(autoprefixer())
         .on('error', notify.onError())
-        // .pipe(gulpIf(!isDevelopment, cleanCSS()))
+        .pipe(gulpIf(!isDevelopment, cleanCSS()))
         .pipe(sourcemaps.write(isDevelopment ? null : '.'))
         .pipe(gulp.dest(isDevelopment ? 'public/static/css' : 'build/static/css'));
 });
@@ -35,48 +35,56 @@ gulp.task('scripts', function () {
     return gulp.src('frontend/js/index.js', {base: 'frontend'})
         .pipe(sourcemaps.init())
         .pipe(rollup({
-            plugins: [
+            plugins: isDevelopment ?
+            [
                 nodeResolve(),
                 babel({
                     exclude: 'node_modules/**',
                     runtimeHelpers: true,
                 })
+            ] :
+            [
+                nodeResolve(),
+                babel({
+                    exclude: 'node_modules/**',
+                    runtimeHelpers: true,
+                }),
+                uglify()
             ]
         }, {
             format: 'es',
         }))
         .on('error', notify.onError())
-        // .pipe(gulpIf(!isDevelopment, uglify()))
         .pipe(sourcemaps.write(isDevelopment ? null : '.'))
         .pipe(gulp.dest(isDevelopment ? 'public/static' : 'build/static'))
 });
 
 gulp.task('assets', function () {
     return gulp.src('frontend/assets/**', {since: gulp.lastRun('assets')})
-        .pipe(newer('public'))
+        .pipe(newer(isDevelopment ? 'public' : 'build'))
         .pipe(gulp.dest(isDevelopment ? 'public/static' : 'build/static'));
 });
 
 gulp.task('media', function () {
     return gulp.src('frontend/media/**', {since: gulp.lastRun('media')})
-        .pipe(newer('public'))
+        .pipe(newer(isDevelopment ? 'public' : 'build'))
         .pipe(gulp.dest(isDevelopment ? 'public/media' : 'build/media'));
 });
 
 gulp.task('prepared', function () {
     return gulp.src('frontend/prepared/**', {since: gulp.lastRun('prepared')})
-        .pipe(newer('public'))
+        .pipe(newer(isDevelopment ? 'public' : 'build'))
         .pipe(gulp.dest(isDevelopment ? 'public/static' : 'build/static'));
 });
 
 gulp.task('html', function () {
     return gulp.src('frontend/html/**', {since: gulp.lastRun('html')})
-        .pipe(newer('public'))
+        .pipe(newer(isDevelopment ? 'public' : 'build'))
         .pipe(gulp.dest(isDevelopment ? 'public' : 'build'));
 });
 
 gulp.task('clean', function () {
-    return del('public');
+    return del(isDevelopment ? 'public' : 'build');
 });
 
 gulp.task('build',
