@@ -26,7 +26,7 @@ gulp.task('styles', function () {
         .pipe(sass().on('error', sass.logError))
         .pipe(autoprefixer())
         .on('error', notify.onError())
-        .pipe(gulpIf(!isDevelopment, cleanCSS()))
+        // .pipe(gulpIf(!isDevelopment, cleanCSS()))
         .pipe(sourcemaps.write(isDevelopment ? null : '.'))
         .pipe(gulp.dest(isDevelopment ? 'public/static/css' : 'build/static/css'));
 });
@@ -46,7 +46,7 @@ gulp.task('scripts', function () {
             format: 'es',
         }))
         .on('error', notify.onError())
-        .pipe(gulpIf(!isDevelopment, uglify()))
+        // .pipe(gulpIf(!isDevelopment, uglify()))
         .pipe(sourcemaps.write(isDevelopment ? null : '.'))
         .pipe(gulp.dest(isDevelopment ? 'public/static' : 'build/static'))
 });
@@ -61,6 +61,12 @@ gulp.task('media', function () {
     return gulp.src('frontend/media/**', {since: gulp.lastRun('media')})
         .pipe(newer('public'))
         .pipe(gulp.dest(isDevelopment ? 'public/media' : 'build/media'));
+});
+
+gulp.task('prepared', function () {
+    return gulp.src('frontend/prepared/**', {since: gulp.lastRun('prepared')})
+        .pipe(newer('public'))
+        .pipe(gulp.dest(isDevelopment ? 'public/static' : 'build/static'));
 });
 
 gulp.task('html', function () {
@@ -81,6 +87,7 @@ gulp.task('build',
             'scripts',
             'assets',
             'media',
+            'prepared',
             'html'
         )
     )
@@ -91,6 +98,7 @@ gulp.task('watch', function () {
     gulp.watch('frontend/js/**/*.*', gulp.series('scripts'));
     gulp.watch('frontend/assets/**/*.*', gulp.series('assets'));
     gulp.watch('frontend/media/**/*.*', gulp.series('media'));
+    gulp.watch('frontend/prepared/**/*.*', gulp.series('prepared'));
     gulp.watch('frontend/html/**/*.*', gulp.series('html'));
 });
 
