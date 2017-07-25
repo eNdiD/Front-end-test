@@ -30,17 +30,15 @@ textarea, button {
 
 .cover {
     height: 400px;
-    overflow: hidden;
-    display: flex;
-    background: linear-gradient(to top, rgba(#000, .7) 0%, rgba(#000, .7) 17.5%, rgba(#000, 0) 100%);
+    background: {
+        position: center;
+        repeat: no-repeat;
+        size: cover;
+    }
 
-    &__img {
-        display: block;
-        width: 100%;
-        height: auto;
-        align-self: center;
-        position: relative;
-        z-index: -1;
+    &__overlay {
+        height: 100%;
+        background: linear-gradient(to top, rgba(#000, .7) 0%, rgba(#000, .7) 17.5%, rgba(#000, 0) 100%);
     }
 }
 

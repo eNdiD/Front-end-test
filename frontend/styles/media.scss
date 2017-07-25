@@ -1,0 +1,149 @@
+@media all and (max-width: 999px) {
+    .cover {
+        height: 300px;
+    }
+
+    .page {
+        width: 720px;
+        padding-left: 60px;
+        padding-right: 60px;
+    }
+
+    .article-header {
+        &:before {
+            left: -43px;
+        }
+    }
+
+    .article-content {
+        .alignleft {
+            left: -60px;
+            margin-right: -40px;
+        }
+
+        .alignright {
+            right: -60px;
+            margin-left: -40px;
+        }
+    }
+
+    .article-footer {
+        &__section {
+            margin-right: 20px;
+        }
+    }
+}
+
+@media all and (max-width: 767px) {
+    .cover {
+        height: 200px;
+    }
+
+    .page {
+        width: 440px;
+        padding: 30px;
+    }
+
+    .article-header {
+        &:before {
+            display: none;
+        }
+    }
+
+    .article-content {
+        .alignleft,
+        .alignright {
+            float: none;
+            position: static;
+            margin: 25px 0;
+            border: none;
+        }
+    }
+
+    .article-footer {
+        height: 76px;
+        flex-flow: column nowrap;
+        justify-content: space-around;
+        align-items: flex-start;
+    }
+
+    .comment {
+        &__nested-comments {
+            margin-left: -70px;
+        }
+    }
+
+    .comment-avatar {
+        width: 60px;
+        height: 60px;
+
+        &_nested {
+            width: 40px;
+            height: 40px;
+        }
+    }
+}
+
+@media all and (max-width: 479px) {
+    .page {
+        width: 300px;
+        padding: 20px;
+    }
+
+    .article-header {
+        &__title {
+            font-size: 26px;
+        }
+
+        &__date {
+            font-size: 14px;
+        }
+    }
+
+    .article-content {
+        p {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        figure,
+        .alignleft,
+        .alignright {
+            margin: 20px 0;
+        }
+    }
+
+    .textarea {
+        font-size: 15px;
+    }
+
+    .comment-avatar {
+        display: none;
+    }
+
+    .leave-comment {
+        &__title {
+            font-size: 26px;
+        }
+
+        &__form {
+            margin-left: 0;
+        }
+    }
+
+    .comment {
+        &__wrapper {
+            margin-left: 0;
+        }
+
+        &__nested-comments {
+            margin-left: 10px;
+        }
+    }
+
+    .comment-body{
+        p {
+            font-size: 14px;
+        }
+    }
+}
